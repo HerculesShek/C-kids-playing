@@ -64,6 +64,29 @@ void line_num()
   printf("line num is %d\n", nl);
 }
 
+// exercise 
+#define NO_SPACE 0
+#define IN_SPACE 1
+void copy_space_compress()
+{
+  int c, state;
+  state = NO_SPACE;
+  while((c = getchar()) != EOF) {
+    if(c == ' '){
+      if(NO_SPACE == state){
+        state = IN_SPACE;
+        continue;
+      }
+    } else {
+      if(IN_SPACE == state){
+        state = NO_SPACE;
+        printf(" ");
+      } 
+      putchar(c);
+    }
+  }
+}
+
 main()
 {
   // char_io_01();
@@ -71,5 +94,6 @@ main()
   // char_io_03();
   // char_num();
   // char_num_2();
-  line_num();
+  // line_num();
+  copy_space_compress();
 }
