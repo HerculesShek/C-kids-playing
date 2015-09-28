@@ -91,9 +91,9 @@ main()
 {
   // char_io_01();
   // char_io_02();
-  // char_io_03();
+  char_io_03();
   // char_num();
   // char_num_2();
   // line_num();
-  copy_space_compress();
+  // copy_space_compress();
 }
