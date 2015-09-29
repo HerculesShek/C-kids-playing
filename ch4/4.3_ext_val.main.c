@@ -12,8 +12,8 @@ double pop(void);
 int main()
 {
   int type;
-  double op2;
-  char s[MAXOP];
+  double op2;    // second operator 
+  char s[MAXOP]; // sotre a operand or operator
   while ((type = getop(s)) != EOF) {
     switch (type) {
     case NUMBER:
@@ -70,7 +70,7 @@ double pop(void)
   }
 }
 
-#include <ctype.h>
+#include <ctype.h> // for isdigit
 
 int getch(void);
 void ungetch(int);
@@ -99,6 +99,7 @@ int getop(char s[])
 
 
 #define BUFSIZE 100
+
 char buf[BUFSIZE];    /* buffer for ungetch */
 int bufp = 0;         /* next free position in buf */
 int getch(void)  /* get a (possibly pushed-back) character */
