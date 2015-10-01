@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "alloc.h"
 #define ALLOCSIZE 10000
 
 static char allocbuf[ALLOCSIZE];
@@ -23,12 +24,21 @@ void afree(char *p)
 
 void str_copy(char *org, char *dest)
 {
-  int i = 0;
-  while ((dest[i] = org[i]) != '\0')
-    i++;
+  while (*dest++ = *org++)
+    ;
 }
 
 void print_alloc_info()
 {
   printf("allocp index is %ld\n", allocp - allocbuf);
 }
+
+ul str_len(char *s)
+{
+  ul n;
+  for (n = 1; *s != '\0'; s++, n++)
+    ;
+  return n;
+}
+
+
