@@ -19,10 +19,14 @@ void printf_demo()
   
   b = 97;
   printf("%s\n", "hello");
+
+  double d = 44.5632;
+  printf("%1.2f\n", d); // 44.56
   
 }
 
-main()
+int main()
 {
   printf_demo();
+  return 0;
 }
