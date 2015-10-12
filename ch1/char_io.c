@@ -43,7 +43,7 @@ void char_num()
   nc = 0;
   while(getchar() != EOF)
     ++nc;
-  printf("nc is %d\n", nc);
+  printf("nc is %ld\n", nc);
 }
 
 void char_num_2()
@@ -87,7 +87,7 @@ void copy_space_compress()
   }
 }
 
-main()
+int main()
 {
   // char_io_01();
   // char_io_02();
@@ -96,4 +96,5 @@ main()
   // char_num_2();
   // line_num();
   // copy_space_compress();
+  return 0;
 }
