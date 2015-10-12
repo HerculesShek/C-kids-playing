@@ -1,5 +1,8 @@
+// before 1.5
+
 #include <stdio.h>
 
+// 最原始的复制文本
 void char_io_01()
 {
   int c;
@@ -10,6 +13,7 @@ void char_io_01()
   }
 }
 
+// 复制文本精炼的写法
 void char_io_02()
 {
   int c;
@@ -17,7 +21,8 @@ void char_io_02()
     putchar(c);
   }
 }
-// exercise 
+
+// exercise 打印 c != EOF 的值 和 EOF的值
 void char_io_03()
 {
   int c;
@@ -37,6 +42,7 @@ void char_io_03()
   }
 }
 
+// 统计字符数目
 void char_num()
 {
   long nc;
@@ -46,6 +52,7 @@ void char_num()
   printf("nc is %ld\n", nc);
 }
 
+// for的方式统计字符数目
 void char_num_2()
 {
   double nc;
@@ -54,6 +61,7 @@ void char_num_2()
   printf("nc is %.0f\n", nc);
 }
 
+// 统计行数
 void line_num()
 {
   int c, nl;
@@ -64,24 +72,23 @@ void line_num()
   printf("line num is %d\n", nl);
 }
 
-// exercise 
+// exercise 压缩空格为1个空格
 #define NO_SPACE 0
 #define IN_SPACE 1
 void copy_space_compress()
 {
   int c, state;
   state = NO_SPACE;
-  while((c = getchar()) != EOF) {
-    if(c == ' '){
+  while ((c = getchar()) != EOF) {
+    if (c == ' ' || c == '\t' || c == '\n') {
       if(NO_SPACE == state){
         state = IN_SPACE;
-        continue;
       }
     } else {
-      if(IN_SPACE == state){
+      if (IN_SPACE == state) {
         state = NO_SPACE;
         printf(" ");
-      } 
+      }
       putchar(c);
     }
   }
@@ -91,10 +98,10 @@ int main()
 {
   // char_io_01();
   // char_io_02();
-  char_io_03();
+  // char_io_03();
   // char_num();
   // char_num_2();
   // line_num();
-  // copy_space_compress();
+  copy_space_compress();
   return 0;
 }
