@@ -1,3 +1,4 @@
+// 1.5.4 统计单词的个数 字符个数 行数
 #include <stdio.h>
 
 #define IN  1
@@ -5,7 +6,7 @@
 
 void status()
 {
-  int c, nl, nw, nc, state;
+  int c, state, nc, nw, nl;
   state = OUT;
   nl = nw = nc = 0;
   while((c = getchar()) != EOF){
@@ -22,7 +23,8 @@ void status()
   printf("nc:%d\tnw:%d\tnl:%d\n", nc, nw, nl);
 }
 
-main()
+int main()
 {
   status();
+  return 0;
 }
