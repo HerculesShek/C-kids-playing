@@ -80,18 +80,18 @@ void copy_space_compress()
   int c, state;
   state = NO_SPACE;
   while ((c = getchar()) != EOF) {
-    if (c == ' ' || c == '\t' || c == '\n') {
-      if(NO_SPACE == state){
-        state = IN_SPACE;
-      }
+    //  if (c == ' ' || c == '\t' || c == '\n') { // 处理文件的时候可以使用此写法
+    if (c == ' ' || c == '\t') {
+      state = IN_SPACE;
     } else {
-      if (IN_SPACE == state) {
+      if (state == IN_SPACE) {
         state = NO_SPACE;
         printf(" ");
       }
       putchar(c);
     }
   }
+
 }
 
 int main()
