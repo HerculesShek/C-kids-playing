@@ -1,5 +1,11 @@
 #include <stdio.h>
 
+#define len 10
+
+int nums[len];
+int a;
+char chr;
+
 int main()
 {
   int c = '0';
@@ -25,7 +31,13 @@ int main()
   c = '\x41';
   printf("%c\n", c); // A
 
-  
+  printf("==========================\n");
+  for (int i=0; i<len; ++i)
+    printf("%d, ", nums[i]);
+  printf("\n");
+  printf("a is %d\n", a);
+  printf("chr is %c\n", chr);
+  printf("chr is %d\n", chr);
   
   return 0;
 }
