@@ -30,4 +30,26 @@ int main()
   int pos = 4;
   int five = (org>>(1+pos-n)) & ~(~0<<n);
   printf("%d\n", five);
+
+
+  // 以下结果说明 mac移位是算数移位 -- 用符号位填充
+  a = -1;
+  int res = a>>1;
+  printf("shift a is %d\n", res); // -1
+
+  a = -3;
+  res = a>>1;
+  printf("shift a is %d\n", res); // -2
+
+  // 左移永远是乘以2的幂 不论是不是带符号
+  a = -1;
+  res = a<<1;
+  printf("shift a is %d\n", res); // -2
+
+  a = -3;
+  res = a<<1;
+  printf("shift a is %d\n", res); // -6
+  
+  
+  return 0;
 }
