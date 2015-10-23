@@ -11,6 +11,8 @@ double pop(void);
 // Reverse Polish
 int main()
 {
+  // printf("%g\n", atof("-.78"));
+  // return 0;
   int type;
   double op2;    // second operator 
   char s[MAXOP]; // sotre a operand or operator
@@ -36,6 +38,13 @@ int main()
       else
         printf("error: zero divisor\n");
       break;
+    case '%':
+      op2 = pop();
+      if (op2 != 0.0)
+        push((int)pop() % (int)op2);
+      else
+        printf("error: zero modular\n");
+      break;
     case '\n':
       printf("\t%.8g\n", pop());
       break;
@@ -54,10 +63,13 @@ double val[MAXVAL]; // value stack
 
 void push(double f)
 {
+  printf("push %g\n", f);
   if (sp < MAXVAL)
     val[sp++] = f;
-  else
+  else {
     printf("error: stack full, can't push %g\n", f);
+    exit(-1);
+  }
 }
 
 double pop(void)
@@ -70,6 +82,42 @@ double pop(void)
   }
 }
 
+double peek(void) // 只看不取
+{
+  if (sp > 0) {
+    return val[sp-1];
+  } else {
+    printf("stack empty\n");
+    return 0.0;
+  }
+}
+
+void repush(void) // 复制栈顶元素
+{
+  push(peek());
+}
+
+void swaptop(void) // 交换栈顶2个元素的值
+{
+  void swap(double a[], int i, int j);
+  if (sp > 1)
+    swap(val, sp-1, sp-2);
+}
+
+void swap(double a[], int i, int j)
+{
+  double t = a[i];
+  a[i] = a[j];
+  a[j] = t;
+}
+
+void clear()
+{
+  sp = 0;
+}
+// ----------- stack ---------------
+
+
 #include <ctype.h> // for isdigit
 
 int getch(void);
@@ -78,14 +126,22 @@ void ungetch(int);
 /* getop:  get next character or numeric operand */
 int getop(char s[])
 {
-  int i, c;
+  int i, c, d;
   while ((s[0] = c = getch()) == ' ' || c == '\t')
     ;
   s[1] = '\0';
-  if (!isdigit(c) && c != '.')
-    return c;        /* not a number */
+  // 这个if是加了符号判断之后 修改的 目前来看 代码稍显丑陋 和 下文衔接不够好
+  if (!isdigit(c) && c != '.') { 
+    if (c == '-' || c == '+') { /* maybe a sign - or + */
+      d = getch();
+      ungetch(d);
+      if (!isdigit(d))      /* not a number */
+        return c;
+    } else
+      return c;
+  }
   i = 0;
-  if (isdigit(c))    /* collect integer part */
+  if (isdigit(c) || c == '-' || c == '+')    /* collect integer part */
     while (isdigit(s[++i] = c = getch()))
       ;
   if (c == '.')      /* collect fraction part */
