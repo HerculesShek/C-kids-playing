@@ -3,10 +3,9 @@
 #include <math.h>
 
 #define MAXOP 100 /* max size of operand or operator */
-#define NUMBER '0' /* signal that a number was found */
+// #define NUMBER '0' /* signal that a number was found */
 #define PI 3.14159265
-typedef enum {SIN = 1024, EXP, POW} opr;
-
+typedef enum {NUMBER=1024, SIN, EXP, POW, ADD, SUB, MUL, DIV, MOD, UNKNOWN} opr;
 
 int getop(char []);
 void push(double);
@@ -135,6 +134,8 @@ char *opers[] = {
 };
 int num_opers = sizeof(opers) / sizeof(opers[0]);
 char *operator; // 如果是惨做函数 sin exp 则指向它
+int is_operator(char *op);
+opr get_opr(char *op);
 
 /* getop:  get next character or numeric operand */
 int getop(char s[])
@@ -149,10 +150,10 @@ int getop(char s[])
       d = getch();
       ungetch(d);
       if (!isdigit(d))  /* not a number but '-' or '+' */
-        return c;
+        return get_opr(s);
     } else {            /* other operatoer or word  '*' '/' 'x' 'w'... */
       if (c == '/' || c == '*' || c == '%') /* '/' '*' or '%' */ 
-        return c;
+        return get_opr(s);
       else { // "xxxsinyyy" xxx and yyy will be ignored 还好没有 math-cos这种函数 否则'-'的处理就十分麻烦了 并且现在 log10 这种函数 还支持不了 TODO
         int j = 0;
         while (!isdigit(s[++j]=c=getch()) && c!='.' && c!='+' && c!= '-' && !isspace(c))
@@ -161,12 +162,19 @@ int getop(char s[])
         ungetch(c);
 
         int op_flag = is_operator(s);
-        if (op_flag == 0)
-          return operator; // TODO return enum
-        else if (op_flag > 0) { // TODO ungetch 
-          
-        } else { // TODO return enum
-          return unknow;
+        int k;
+        if (op_flag == 0) {
+          for (k=strlen(s)-1; k>=op_flag+strlen(operator); k--)
+            ungetch(s[k]);
+          s[k] = '\0';
+          return get_opr(s);
+        } else if (op_flag > 0) {
+          for (k=strlen(s)-1; k>=op_flag; k--)
+            ungetch(s[k]);
+          s[k] = '\0';
+          return UNKNOWN;
+        } else {
+          return UNKNOWN;
         }
         
       }
@@ -196,6 +204,29 @@ int is_operator(char *op) // 看字符串op中是否含有 操作函数 比如 s
     }
   }
   return -1;
+}
+
+opr get_opr(char *op) // 获取操作数或者是操作符的类型
+{
+  if (strcasecmp("+", op)) {
+    return ADD;
+  } else if (strcasecmp("-", op)) {
+    return SUB;
+  } else if (strcasecmp("*", op)) {
+    return MUL;
+  } else if (strcasecmp("/", op)) {
+    return DIV;
+  } else if (strcasecmp("%", op)) {
+    return MOD;
+  } else if (strcasecmp("sin", op)) {
+    return SIN;
+  } else if (strcasecmp("exp", op)) {
+    return EXP;
+  } else if (strcasecmp("pow", op)) {
+    return POW;
+  } else {
+    return UNKNOWN;
+  }
 }
 
 // ---------------------- getop ----------------------------
