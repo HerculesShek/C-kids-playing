@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include "getch.h"
 #define BUFSIZE 100
-
 static char buf[BUFSIZE];    /* buffer for ungetch */
 static int bufp = 0;         /* next free position in buf */
 

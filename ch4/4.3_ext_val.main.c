@@ -5,9 +5,9 @@
 
 #define MAXOP 100 /* max size of operand or operator */
 #define PI 3.14159265
-typedef enum {NUMBER=1024, SIN, COS, EXP, POW, ADD, SUB, MUL, DIV, MOD, UNKNOWN, END, RET} opr;
+typedef enum {NUMBER=1024, SIN, COS, EXP, POW, FLOOR, SQRT, ADD, SUB, MUL, DIV, MOD, UNKNOWN, END, RET} opr;
 
-int getop(char []);
+opr getop(char []);
 void push(double);
 double pop(void);
 
@@ -56,8 +56,14 @@ int main()
       op2 = pop();
       push(pow(pop(), op2));
       break;
+    case FLOOR:
+      push(floor(pop()));
+      break;
     case COS:
       push(cos(pop()));
+      break;
+    case SQRT:
+      push(sqrt(pop()));
       break;
     case RET:
       printf("\t%.8g\n", pop());
@@ -90,9 +96,11 @@ void push(double f)
 double pop(void)
 {
   if (sp > 0) {
-    return val[--sp];
+    double top = val[--sp];
+    printf("pop %g\n", top);
+    return top;
   } else {
-    printf("stack empty\n");
+    printf("stack empty pop 0.0\n");
     return 0.0;
   }
 }
@@ -142,15 +150,17 @@ char *opers[] = {
   "sin",
   "exp",
   "pow",
-  "cos"
+  "cos",
+  "floor",
+  "sqrt"
 };
 int num_opers = sizeof(opers) / sizeof(opers[0]);
-char *operator; // 如果是惨做函数 sin exp 则指向它
+char *operator; // 如果是库函数 sin exp 则指向它
 int is_operator(char *op);
 opr get_opr(char *op);
 
 /* getop:  get next operator (sin + % lg) or numeric operand */
-int getop(char s[])
+opr getop(char s[])
 {
   int i, c, d;
   while ((s[0] = c = getch()) == ' ' || c == '\t') /* remvoe beginning space chars */
@@ -161,7 +171,7 @@ int getop(char s[])
     if (c == '-' || c == '+') { /* maybe a sign - or + */
       d = getch();
       ungetch(d);
-      if (!isdigit(d))  /* not a number but '-' or '+' operator */
+      if (!isdigit(d) && d != '.')  /* not a number but '-' or '+' operator */
         return get_opr(s);
     } else {            /* other operatoer or word  '*' '/' 'x' 'w'... */
       if (c == '/' || c == '*' || c == '%' || c == EOF || c == '\n') /* '/' '*' or '%' */
@@ -172,12 +182,7 @@ int getop(char s[])
         ;
       s[j] = '\0';
       ungetch(c);
-      printf("len of s if %lu\n", strlen(s));
-      printf("s is %s\n", s);
-
       int op_flag = is_operator(s);
-      printf("op_flag is %d\n", op_flag);
-      printf("operator is %s\n", operator);
       int k;
       if (op_flag == 0) {
         for (k=strlen(s)-1; k>=op_flag+strlen(operator); k--)
@@ -245,6 +250,10 @@ opr get_opr(char *op) // 获取操作数或者是操作符的类型
     return POW;
   } else if (strcasecmp("cos", op) == 0) {
     return COS;
+  } else if (strcasecmp("floor", op) == 0) {
+    return FLOOR;
+  } else if (strcasecmp("sqrt", op) == 0) {
+    return SQRT;
   } else {
     return UNKNOWN;
   }
