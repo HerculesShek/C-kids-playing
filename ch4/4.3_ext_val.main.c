@@ -4,7 +4,6 @@
 #include <string.h>
 
 #define MAXOP 100 /* max size of operand or operator */
-// #define NUMBER '0' /* signal that a number was found */
 #define PI 3.14159265
 typedef enum {NUMBER=1024, SIN, COS, EXP, POW, ADD, SUB, MUL, DIV, MOD, UNKNOWN, END, RET} opr;
 
@@ -15,14 +14,10 @@ double pop(void);
 // Reverse Polish
 int main()
 {
-  // printf("%g\n", sin(270 * PI / 180));
-  // return 0;
-  
   opr type;
   double op2;    // second operator 
   char s[MAXOP]; // sotre a operand or operator
   while ((type = getop(s)) != END) {
-    printf("type is %d\n", type);
     switch (type) {
     case NUMBER:
       push(atof(s));
@@ -254,7 +249,6 @@ opr get_opr(char *op) // 获取操作数或者是操作符的类型
     return UNKNOWN;
   }
 }
-
 // ---------------------- getop ----------------------------
 
 #define BUFSIZE 100
