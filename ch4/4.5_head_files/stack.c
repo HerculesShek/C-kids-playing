@@ -3,8 +3,8 @@
 // #include "calc.h"
 #include "stack.h"
 #define MAXVAL 100 // max deepth
-int sp = 0; // next idle stack postion
-double val[MAXVAL]; // value stack
+static int sp = 0; // next idle stack postion
+static double val[MAXVAL]; // value stack
 
 void push(double f)
 {

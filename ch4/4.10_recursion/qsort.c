@@ -1,13 +1,13 @@
 #include <stdio.h>
 
-
 void qsort(int v[], int left, int right);
 
 int main()
 {
-  int a[8] = {22,32,18,98,10,7,92,67};
-  qsort(a, 0, 8);
-  for (int i = 0; i < 8; ++i)
+  int a[] = {22,32,18,98,10,7,92,67,8,33,4,90};
+  int len = sizeof(a) / sizeof(a[0]);
+  qsort(a, 0, len);
+  for (int i = 0; i < len; ++i)
     printf("%d ", a[i]);
   printf("\n");
   return 0;
@@ -25,7 +25,9 @@ void qsort(int v[], int left, int right)
     if (v[i] < v[left])
       swap(v, ++last, i);
   swap(v, left, last);
+  qsort(v, left, last - 1);
   qsort(v, last + 1, right);
+
 }
 
 void swap(int v[], int i, int j)

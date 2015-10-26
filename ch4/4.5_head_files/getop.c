@@ -4,7 +4,7 @@
 #include "getop.h"
 #include "getch.h"
 
-char *opers[] = {
+static char *opers[] = {
   "sin",
   "exp",
   "pow",
@@ -12,7 +12,7 @@ char *opers[] = {
   "floor",
   "sqrt"
 };
-int num_opers = sizeof(opers) / sizeof(opers[0]);
+static int num_opers = sizeof(opers) / sizeof(opers[0]);
 
 /* getop:  get next character or numeric operand */
 opr getop(char s[])

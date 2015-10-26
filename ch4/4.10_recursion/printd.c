@@ -5,7 +5,7 @@ void printd(int n);
 
 int main()
 {
-  int a = 123;
+  int a = -123;
   printd(a);
   printf("\n");
   return 0;
